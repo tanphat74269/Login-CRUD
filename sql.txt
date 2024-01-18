@@ -1,0 +1,12 @@
+create table users (
+    id int primary key auto_increment,
+    fullname varchar(50) not null,
+    email varchar(150),
+    birthday date,
+    password varchar(32),
+    address varchar(200)
+)
+
+// Thêm cột token vào bảng users
+alter table users 
+    add token varchar(32)
