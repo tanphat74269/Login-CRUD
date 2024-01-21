@@ -4,9 +4,7 @@ create table users (
     email varchar(150),
     birthday date,
     password varchar(32),
-    address varchar(200)
+    address varchar(200),
+    token varchar(32)
 )
 
-// Thêm cột token vào bảng users
-alter table users 
-    add token varchar(32)
