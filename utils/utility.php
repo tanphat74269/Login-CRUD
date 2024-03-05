@@ -3,7 +3,7 @@ function getPwdSecurity($pwd) {
 	return md5(md5($pwd).MD5_PRIVATE_KEY);
 }
 
-function validateToken() { // Hàm này dùng để lấy ra thông tin người dùng đã đăng nhập
+function validateToken() {
 	$token = '';
 
 	if (isset($_COOKIE['token'])) {

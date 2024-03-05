@@ -14,7 +14,6 @@ if ($user == null) {
 	die();
 }
 
-// Lưu danh sách user vào biến $userList
 $sql      = "select * from users";
 $userList = executeResult($sql);
 ?>
@@ -54,20 +53,20 @@ $userList = executeResult($sql);
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-						$count = 0;
-						foreach ($userList as $item) {
-							echo '<tr>
-									<td>'.(++$count).'</td>
-									<td>'.$item['fullname'].'</td>
-									<td>'.$item['email'].'</td>
-									<td>'.$item['birthday'].'</td>
-									<td>'.$item['address'].'</td>
-									<td><button class="btn btn-warning">Edit</button></td>
-									<td><button class="btn btn-danger">Delete</button></td>
-								</tr>';
-						}
-						?>
+<?php
+$count = 0;
+foreach ($userList as $item) {
+	echo '<tr>
+			<td>'.(++$count).'</td>
+			<td>'.$item['fullname'].'</td>
+			<td>'.$item['email'].'</td>
+			<td>'.$item['birthday'].'</td>
+			<td>'.$item['address'].'</td>
+			<td><button class="btn btn-warning">Edit</button></td>
+			<td><button class="btn btn-danger">Delete</button></td>
+		</tr>';
+}
+?>
 					</tbody>
 				</table>
 			</div>

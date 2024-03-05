@@ -9,12 +9,12 @@ if (!empty($_POST)) {
 	$address  = getPOST('address');
 
 	if ($fullname != '' && $password != '' && $email != '') {
-		// lưu dữ liệu vào database
-		$password = getPwdSecurity($password); // bảo mật
+		//save user into database
+		$password = getPwdSecurity($password);
 
 		$sql = "insert into users (fullname, password, email, birthday, address) values ('$fullname', '$password', '$email', '$birthday', '$address')";
 		// echo $sql;//SQL Injection
-		execute($sql); // thêm
+		execute($sql);
 		// die();
 
 		//chuyen sang trang login.php

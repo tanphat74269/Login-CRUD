@@ -1,20 +1,13 @@
 <?php
-//Cach 1
-// if (isset($_COOKIE['login']) && $_COOKIE['login'] == 'true') {
-// 	header('Location: users.php');
-// 	die();
-// }
+require_once('../db/dbhelper.php');
+require_once('../utils/utility.php');
 
-require_once ('../db/dbhelper.php');
-require_once ('../utils/utility.php');
-
-//Cach 2
-$user = validateToken(); // dùng token
-if ($user != null) {
-	header('Location: users.php');
-	die();
+$user = validateToken();
+if($user != null) {
+    header('Location: users.php');
+    die();
 }
-require_once ('form-register.php'); // thêm dữ liệu vào database
+require_once('form-register.php');
 ?>
 
 <!DOCTYPE html>
@@ -70,18 +63,16 @@ require_once ('form-register.php'); // thêm dữ liệu vào database
 			</div>
 		</div>
 	</div>
-
-	<!-- javascript -->
-	<script type="text/javascript">
-		$(function() {
-			$('#RegisterForm').submit(function() {
-				if($('[name=password]').val() != $('[name=confirmation_pwd]').val()) {
-					alert('Password is not matching, plz check it again!!!')
-					return false;
-				}
-				return true;
-			})
+<script type="text/javascript">
+	$(function() {
+		$('#RegisterForm').submit(function() {
+			if($('[name=password]').val() != $('[name=confirmation_pwd]').val()) {
+				alert('Password is not matching, plz check it again!!!')
+				return false;
+			}
+			return true;
 		})
-	</script>
+	})
+</script>
 </body>
 </html>
