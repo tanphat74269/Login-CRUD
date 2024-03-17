@@ -1,5 +1,4 @@
 <?php
-session_start();
 // if (!isset($_COOKIE['login']) || $_COOKIE['login'] != 'true') {
 // 	header('Location: login.php');
 // 	die();
@@ -15,7 +14,7 @@ if ($user == null) {
 	die();
 }
 
-$sql      = "select * from users limit 0, 3";
+$sql      = "select * from users";
 $userList = executeResult($sql);
 ?>
 <!DOCTYPE html>
@@ -53,7 +52,7 @@ $userList = executeResult($sql);
 							<th style="width: 50px;"></th>
 						</tr>
 					</thead>
-					<tbody id="result">
+					<tbody>
 <?php
 $count = 0;
 foreach ($userList as $item) {
@@ -63,49 +62,15 @@ foreach ($userList as $item) {
 			<td>'.$item['email'].'</td>
 			<td>'.$item['birthday'].'</td>
 			<td>'.$item['address'].'</td>
-			<td><button class="btn btn-warning">Edit</button></td>
-			<td><button class="btn btn-danger">Delete</button></td>
+			<td><button class="btn btn-warning"><a style="color: black;" href="update-user.php?id='.$item['id'].'">Edit</a></button></td>
+			<td><button class="btn btn-danger"><a style="color: black;" href="delete-user.php?id='.$item['id'].'">Delete</a></button></td>
 		</tr>';
 }
 ?>
 					</tbody>
 				</table>
-				<p style="text-align: center;">
-					<a href="#load-more" onclick="loadMore(this)">Load More</a>
-				</p>
 			</div>
 		</div>
 	</div>
-
-<script type="text/javascript">
-	var currentPage = 1;
-	var count = 3;
-
-	function loadMore(that) {
-		currentPage++
-		$.get('api-users.php?page='+currentPage, function(data) {
-			if(data == null || data == '') {
-				$(that).parent().hide() // ẩn load more nếu hết dữ liệu
-			} else {
-				userList = JSON.parse(data)
-				if(userList.length < 3) {
-					$(that).parent().hide()
-				}
-				for (var i = 0; i < userList.length; i++) {
-					$('#result').append(`<tr>
-								<td>${++count}</td>
-								<td>${userList[i]['fullname']}</td>
-								<td>${userList[i]['email']}</td>
-								<td>${userList[i]['birthday']}</td>
-								<td>${userList[i]['address']}</td>
-								<td><button class="btn btn-warning">Edit</button></td>
-								<td><button class="btn btn-danger">Delete</button></td>
-							</tr>`)
-				}
-			}
-			// $('#result').append(data)
-		})
-	}
-</script>
 </body>
 </html>

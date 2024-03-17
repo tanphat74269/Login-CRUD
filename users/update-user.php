@@ -1,20 +1,34 @@
 <?php
-//Cach 1
-// if (isset($_COOKIE['login']) && $_COOKIE['login'] == 'true') {
-// 	header('Location: users.php');
-// 	die();
-// }
-
 require_once ('../db/dbhelper.php');
 require_once ('../utils/utility.php');
 
-//Cach 2
-$user = validateToken();
-if ($user != null) {
-	header('Location: users.php');
-	die();
+$id = $_GET['id'];
+$sql      = "select * from users where id=".$id;
+$user = executeResult($sql);
+
+// update user 
+if (!empty($_POST)) {
+	$fullname = getPOST('fullname');
+	$password = getPOST('password');
+	$email    = getPOST('email');
+	$birthday = getPOST('birthday');
+	$address  = getPOST('address');
+
+    if ($fullname != '' && $password != '' && $email != '') {
+		//save user into database
+		$password = getPwdSecurity($password);
+
+		$sql = "update users set fullname = '$fullname', password='$password', email='$email', birthday='$birthday', address='$address' where id = ".$id;
+		// echo $sql;//SQL Injection
+		execute($sql);
+		// die();
+
+		//chuyen sang trang login.php
+		header('Location: users.php');
+		die();
+	}
 }
-require_once ('form-register.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -37,50 +51,34 @@ require_once ('form-register.php');
 	<div class="container">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h2 class="text-center">Registation Page</h2>
+				<h2 class="text-center">Edit User</h2>
 			</div>
 			<div class="panel-body">
 				<form method="post" id="RegisterForm">
 					<div class="form-group">
 					  <label for="usr">Full Name:</label>
-					  <input required="true" type="text" class="form-control" id="usr" name="fullname">
+					  <input required="true" type="text" class="form-control" id="usr" name="fullname" value="<?=$user[0]['fullname']?>">
 					</div>
 					<div class="form-group">
 					  <label for="email">Email:</label>
-					  <input required="true" type="email" class="form-control" id="email" name="email">
+					  <input required="true" type="email" class="form-control" id="email" name="email" value="<?=$user[0]['email']?>">
 					</div>
 					<div class="form-group">
 					  <label for="birthday">Birthday:</label>
-					  <input required="true" type="date" class="form-control" id="birthday" name="birthday">
+					  <input required="true" type="date" class="form-control" id="birthday" name="birthday" value="<?=$user[0]['birthday']?>">
 					</div>
 					<div class="form-group">
 					  <label for="pwd">Password:</label>
 					  <input required="true" type="password" class="form-control" id="pwd" name="password">
 					</div>
 					<div class="form-group">
-					  <label for="confirmation_pwd">Confirmation Password:</label>
-					  <input required="true" type="password" class="form-control" id="confirmation_pwd" name="confirmation_pwd">
-					</div>
-					<div class="form-group">
 					  <label for="address">Address:</label>
-					  <input required="true" type="text" class="form-control" id="address" name="address">
+					  <input required="true" type="text" class="form-control" id="address" name="address" value="<?=$user[0]['address']?>">
 					</div>
-					<button class="btn btn-success">Register</button>
+					<button class="btn btn-success">Update User</button>
 				</form>
 			</div>
 		</div>
 	</div>
-    
-    <script type="text/javascript">
-        $(function() {
-            $('#RegisterForm').submit(function() {
-                if($('[name=password]').val() != $('[name=confirmation_pwd]').val()) {
-                    alert('Password is not matching, plz check it again!!!')
-                    return false;
-                }
-                return true;
-            })
-        })
-    </script>
 </body>
 </html>
