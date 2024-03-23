@@ -1,4 +1,4 @@
 # Login-CRUD
-Đăng ký, đăng nhập và nhúng database vào front end
+Đăng ký, đăng nhập, đăng xuất
 
-Chức năng Thêm Sửa Xóa database bằng php và mysql.
+CRUD bằng php và mysql.
