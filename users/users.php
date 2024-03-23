@@ -14,7 +14,7 @@ if ($user == null) {
 	die();
 }
 
-$sql      = "select * from users";
+$sql      = "select * from users limit 0, 3";
 $userList = executeResult($sql);
 ?>
 <!DOCTYPE html>
@@ -52,7 +52,7 @@ $userList = executeResult($sql);
 							<th style="width: 50px;"></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="result">
 <?php
 $count = 0;
 foreach ($userList as $item) {
@@ -69,8 +69,42 @@ foreach ($userList as $item) {
 ?>
 					</tbody>
 				</table>
+				<p style="text-align: center;">
+					<a href="#load-more" onclick="loadMore(this)">Load More</a>
+				</p>
 			</div>
 		</div>
 	</div>
+	
+<script type="text/javascript">
+	var currentPage = 1;
+	var count = 3;
+
+	function loadMore(that) {
+		currentPage++
+		$.get('api-users.php?page='+currentPage, function(data) { 
+			if(data == null || data == '') {
+				$(that).parent().hide()
+			} else {
+				userList = JSON.parse(data)
+				if(userList.length < 3) {
+					$(that).parent().hide()
+				}
+				for (var i = 0; i < userList.length; i++) {
+					$('#result').append(`<tr>
+								<td>${++count}</td>
+								<td>${userList[i]['fullname']}</td>
+								<td>${userList[i]['email']}</td>
+								<td>${userList[i]['birthday']}</td>
+								<td>${userList[i]['address']}</td>
+								<td><button class="btn btn-warning">Edit</button></td>
+								<td><button class="btn btn-danger">Delete</button></td>
+							</tr>`)
+				}
+			}
+			// $('#result').append(data)
+		})
+	}
+</script>
 </body>
 </html>
